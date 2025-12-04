@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历 - 孙浩坤</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        .blur {
+            filter: blur(10px);
+            pointer-events: none;
+            user-select: none;
+        }
+        .no-blur {
+            filter: none !important;
+            pointer-events: auto !important;
+            user-select: auto !important;
+            position: relative;
+            z-index: 5;
+        }
+        .resume {
+            max-width: 900px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: filter 0.5s;
+            position: relative;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .avatar {
+            margin-right: 30px;
+        }
+        .avatar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .personal-info {
+            text-align: left;
+        }
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        .contact {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        h2 {
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        h3 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .job, .education-item {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .skill {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+        }
+        .skill:hover {
+            transform: translateY(-2px);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .modal {
+            display: block;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+        }
+        .error-msg {
+            color: #e53e3e;
+            margin-top: 10px;
+            font-size: 1rem;
+            display: none;
+        }
+        .success-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .success-content {
+            background-color: #98d8c8;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 20px;
+            width: 300px;
+            text-align: center;
+            animation: slideIn 0.5s;
+        }
+        @keyframes slideIn {
+            from {transform: translateY(-100px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #5a67d8;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 300px;
+            position: absolute;
+            top: 200px;
+            right: 40px;
+            z-index: 10;
+        }
+        .info-item {
+            display: block;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .info-label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            display: block;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+
+        .ai-disclaimer {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.5);
+            background: none;
+            padding: 0;
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div id="accessModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 解锁简历大门！</h2>
+            <p>快说魔法咒语（访问码）来开启这个神奇的页面吧~</p>
+            <input type="password" id="accessCode" placeholder="神秘访问码">
+            <br>
+            <button onclick="checkAccess()">🚀 启动！</button>
+            <button onclick="location.reload()">🙃 重新开始</button>
+            <div id="errorMsg" class="error-msg"></div>
+        </div>
+    </div>
+
+    <div id="successModal" class="success-modal">
+        <div class="success-content">
+            <h2>🎉 恭喜你！</h2>
+            <p>点亮了本简历的大门！<br>你已经是第 <span id="visitCountDisplay"></span> 位幸运访客啦！</p>
+            <button onclick="closeSuccessModal()">✨ 开始阅读</button>
+        </div>
+    </div>
+
+    <div class="resume" id="resume">
+        <header class="blur">
+            <div class="header-content">
+                <div class="avatar">
+                    <img src="head.jpg" alt="头像" id="profilePic">
+                </div>
+                <div class="personal-info">
+                    <h1>孙浩坤</h1>
+                    <div class="contact">
+                        <p>95后 | ♂ | 华政金专ing | CET-6</p>
+                        <p>邮箱: 2656326897@qq.com | 电话: 13665276962 | 地点: 上海</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+        <section class="section">
+            <h2>求职目标</h2>
+            <p>AI agent 工程师，量化实习生，区块链开发，Remote 优先！Money 优先！</p>
+        </section>
+        <section class="section blur">
+            <h2>教育背景</h2>
+            <ul>
+                <li>硕士学位 | 华东政法大学 | 金融专硕 | 2025 - 至今</li>
+                <li>学士学位 | 成都理工大学 | 机械工程 | 2013 - 2017</li>
+            </ul>
+        </section>
+        <section class="section blur">
+            <h2>证书</h2>
+            <ul>
+                <li> 计算机二级</li>
+                <li> 英语六级</li>
+            </ul>
+        </section>
+
+        <section class="section blur">
+            <h2>技能</h2>
+            <div class="skills">
+                <span class="skill">AI Agent</span>
+                <span class="skill">Python</span>
+                <span class="skill">Solidity</span>
+                <span class="skill">Java</span>
+                <span class="skill">Rust</span>
+                <span class="skill">Stata</span>
+            </div>
+        </section>
+        <section class="section blur">
+            <h2>工作经验</h2>
+            <div class="job">
+                <h3>AI 开发工程师 | 自由职业 | 2023 - 2025</h3>
+                <ul>
+                    <li>通过AI +coding 做量化策略</li>
+                    <li>分析市场与基本面</li>
+                </ul>
+            </div>
+            <div class="job">
+                <h3>区块链工程师 | 杭州量子云科技有限公司 | 2020 - 2023</h3>
+                <ul>
+                    <li>负责后端链上合约开发工作</li>
+                    <li>参与团队协作和代码审查</li>
+                </ul>
+            </div>
+            <div class="job">
+                <h3>软件工程师 | 江苏南大先腾科技有限公司 | 2018 - 2020</h3>
+                <ul>
+                    <li>学习和应用新技术栈</li>
+                    <li>完成分配的项目任务</li>
+                </ul>
+            </div>
+        </section>
+
+        
+
+        <section class="section blur">
+            <h2>项目经验</h2>
+            <div>
+                <h3>基于实时视频传输的动态远程协助系统</h3>
+                <p>jitsi+springcloud 整合供疫情期间远程协助</p>
+            </div>
+            <div>
+                <h3>基于near链的算法稳定币defi合约</h3>
+                <p>使用rust开发的合约项目，用于铸造多链稳定币</p>
+            </div>
+        </section>
+
+        <div class="ai-disclaimer">
+            <p>* 本简历确实由 AI 生成，但内容是真的。</p>
+        </div>
+    </div>
+
+    <script>
+        let visitCount = localStorage.getItem('resumeVisitCount') ? parseInt(localStorage.getItem('resumeVisitCount')) : 0;
+
+        function simpleHash(str) {
+            let hash = 0;
+            const mod = 1000000; // 减少大数问题
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash * 31) + str.charCodeAt(i)) % mod;
+            }
+            return hash.toString();
+        }
+
+        function checkAccess() {
+            const code = document.getElementById('accessCode').value;
+            if (!code) return;
+
+            const hashedCode = simpleHash(code);
+            const correctHash = '161444'; // 想看明文？再猜猜
+
+            if (hashedCode === correctHash) {
+                visitCount++;
+                localStorage.setItem('resumeVisitCount', visitCount);
+
+                document.getElementById('visitCountDisplay').textContent = visitCount;
+                document.getElementById('successModal').style.display = 'block';
+
+                document.getElementById('accessModal').style.display = 'none';
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.innerHTML = '🔒 糟糕，密码不对！尝试联系下本尊吧～，偷偷告诉你他的邮箱是 2656326897@qq.com';
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            const blurElements = document.querySelectorAll('.blur');
+            blurElements.forEach(element => {
+                element.classList.remove('blur');
+            });
+        }
+
+        // 允许按Enter键提交
+        document.getElementById('accessCode').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkAccess();
+            }
+        });
+    </script>
+</body>
+</html>
