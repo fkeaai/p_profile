@@ -9,9 +9,16 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 35%, #b872c7 70%, #ffcc80 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             color: #333;
             min-height: 100vh;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .blur {
             filter: blur(10px);
@@ -95,18 +102,19 @@
             justify-content: center;
         }
         .skill {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(45deg, #ffb347, #ffcc02);
+            color: #333;
             padding: 10px 20px;
             margin: 5px;
             border-radius: 25px;
             font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-            transition: transform 0.2s;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(255, 179, 71, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .skill:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(255, 179, 71, 0.4);
         }
         ul {
             padding-left: 20px;
@@ -240,6 +248,69 @@
             padding: 0;
             max-width: 250px;
         }
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 1001;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0e0e0e 0%, #2a2a2a 35%, #4a4a4a 70%, #1a1a1a 100%);
+            color: #e0e0e0;
+        }
+
+        body.dark .resume {
+            background: rgba(30, 30, 30, 0.95);
+            color: #e0e0e0;
+        }
+
+        body.dark h1, body.dark h2, body.dark h3 {
+            color: #ffffff;
+        }
+
+        body.dark .contact {
+            color: #cccccc;
+        }
+
+        body.dark .job, body.dark .education-item {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .project-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .project-image {
+            text-align: center;
+            width: 100%;
+            max-width: 1600px;
+        }
+        .project-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .project-image img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -272,7 +343,7 @@
                 <div class="personal-info">
                     <h1>孙浩坤</h1>
                     <div class="contact">
-                        <p>95后 | ♂ | 华政金专ing | CET-6</p>
+                        <p>95年 | ♂ | 华政金专ing | CET-6</p>
                         <p>邮箱: 2656326897@qq.com | 电话: 13665276962 | 地点: 上海</p>
                     </div>
                 </div>
@@ -283,7 +354,7 @@
 
         <section class="section">
             <h2>求职目标</h2>
-            <p>AI agent 工程师，量化实习生，区块链开发，Remote 优先！Money 优先！</p>
+            <p>量化实习生，投资研究员</p>
         </section>
         <section class="section blur">
             <h2>教育背景</h2>
@@ -303,21 +374,21 @@
         <section class="section blur">
             <h2>技能</h2>
             <div class="skills">
-                <span class="skill">AI Agent</span>
+                <!-- <span class="skill">AI Agent</span> -->
                 <span class="skill">Python</span>
-                <span class="skill">Solidity</span>
-                <span class="skill">Java</span>
-                <span class="skill">Rust</span>
+                <span class="skill">mysql</span>
+                <span class="skill">Redis</span>
                 <span class="skill">Stata</span>
+                <span class="skill">Vibe Coding</span>
             </div>
         </section>
         <section class="section blur">
             <h2>工作经验</h2>
             <div class="job">
-                <h3>AI 开发工程师 | 自由职业 | 2023 - 2025</h3>
+                <h3>自营量化开发 | 自由职业 | 2023 - 2025</h3>
                 <ul>
-                    <li>通过AI +coding 做量化策略</li>
-                    <li>分析市场与基本面</li>
+                    <li>通过AI +coding 挖掘因子做量化策略</li>
+                    <li>主要分析市场与基本面做低频策略</li>
                 </ul>
             </div>
             <div class="job">
@@ -345,18 +416,44 @@
                 <p>jitsi+springcloud 整合供疫情期间远程协助</p>
             </div>
             <div>
-                <h3>基于near链的算法稳定币defi合约</h3>
-                <p>使用rust开发的合约项目，用于铸造多链稳定币</p>
+                <h3>基本面量化低频策略</h3>
+                <p>python + akshare 进行基本面因子挖掘与回测</p>
             </div>
         </section>
 
-        <div class="ai-disclaimer">
+        <section class="section blur">
+            <h2>项目成果展示</h2>
+            <div class="project-gallery">
+                <div class="project-image">
+                    <img src="stratgy.png" alt="项目成果" style="width: 1600px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    <p>量化回测图表</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- <div class="ai-disclaimer">
             <p>* 本简历确实由 AI 生成，但内容是真的。</p>
-        </div>
+        </div> -->
     </div>
+
+    <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
 
     <script>
         let visitCount = localStorage.getItem('resumeVisitCount') ? parseInt(localStorage.getItem('resumeVisitCount')) : 0;
+
+        // Dark mode toggle
+        const toggleButton = document.getElementById('darkModeToggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            toggleButton.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
+
+        // Load theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark');
+            toggleButton.textContent = '☀️';
+        }
 
         function simpleHash(str) {
             let hash = 0;
@@ -375,6 +472,7 @@
             const correctHash = '161444'; // 想看明文？再猜猜
 
             if (hashedCode === correctHash) {
+            // if (true) {
                 visitCount++;
                 localStorage.setItem('resumeVisitCount', visitCount);
 
